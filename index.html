@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self'; 
+    script-src 'self' blob: 'unsafe-eval' https://accounts.google.com https://apis.google.com https://www.googleapis.com https://cdn.jsdelivr.net https://cesium.com; 
+    connect-src 'self' https://oauth2.googleapis.com https://www.googleapis.com https://accounts.google.com https://cesium.com tile.openstreetmap.org; 
+    frame-src 'self' https://accounts.google.com https://docs.google.com; 
+    style-src 'self' 'unsafe-inline' https://accounts.google.com https://cdn.jsdelivr.net; 
+    img-src 'self' data: tile.openstreetmap.org  https://cesium.com;
+    worker-src 'self' blob:;
+  ">
+  <title>Sail Data Player</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@latest/ol.css">
+  
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@latest/ol.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol-cesium@latest/dist/olcesium.css">
+  <script type="module" crossorigin src="/assets/index.77a11e45.js"></script>
+  <link rel="stylesheet" href="/assets/index.0d90547e.css">
+</head>
+<body>
+<div id="playerMode" class=player-mode-control>
+  <div class="form-row-no-border">
+    <button id="playerModeButtonPolar" class="icon-button" title="Polar Builder"><img src="/assets/polar.81d18a92.svg"/></button>
+    <button id="playerModeButtonPlayer" class="icon-button selected" title="Race Player"><img src="/assets/play.95679efb.svg"/></button>
+  </div>
+</div>
+<div id="loading-spinner" class="loading-overlay">
+  <div class="spinner"></div>
+</div>
+<span id="map-player">
+  <div id="map" tabindex="0"></div>
+
+  <div id="map-tooltip" class="map-tooltip"></div>
+
+  <div id="map-popup" class="map-popup" style="display: none;">
+    <div class="map-popup-content">
+      <p>This is your popup!</p>
+    </div>
+    <div class="map-popup-tail"></div>
+  </div>
+
+  <div class="controls-wrapper">
+    <div class="controls" >
+      <div class="form-row-no-border-space-between">
+        <div class="form-row-no-border">
+          <button id="annotateButton" class="icon-button"  title="Edit Labels, Notes"><img src="/assets/label.564e9316.svg"/></button>
+          <button id="importDriveButton" class="icon-button" title="Import raw data from Google Drive"><img src="/assets/import-drive.48fa083f.svg"/></button>
+          <button id="importFileButton" class="icon-button" title="Import raw data from File"><img src="/assets/import-file.0236bd90.svg"/></button>
+        </div>
+        <button id="g_id_signin">Drive Login</button>
+      </div>
+      
+      <div class="file-controls form-row">
+        <input type="file" id="fileInputNMEA" accept=".gpx, .json, .txt" style="display: none;"/>
+        <button id="customFileButton" class="icon-button" title="Load from Google Drive"><img src="/assets/file-open.37081efa.svg"/></button>
+        <div id="fileNameSelected"></div>
+        
+        <button id="saveButton" title="Save" class="icon-button"><img src="/assets/save-disk.07b13fc2.svg"/></button>
+        <button id="saveAsButton" title="Save As" class="icon-button"><img src="/assets/save-as-disk.ac8d4cef.svg"/></button>
+      </div>
+
+      <div id="legend">
+      </div>
+    </div>
+  <!--style="display: none; margin-top: 10px; border: 1px solid #ccc; padding: 10px;"-->
+    <div id="annotations" class="annotations" style="display:none">
+      <div class="form-row">
+        <div style="width:45%">
+          <button id="beginButton" title="Set Start" class="icon-button"><img src="/assets/label-start.c18f8c91.svg"/></button>
+          <span id="beginTime">--:--:--</span>
+          <input id="beginTimeInput" type="hidden" >
+        </div>
+        <div style="width:45%">
+          <button id="endButton" class="icon-button" title="Set End"><img src="/assets/label-end.cd516fbf.svg"/></button>
+          <span id="endTime">--:--:--</span>
+          <input id="endTimeInput" type="hidden" >
+        </div>
+        <button style="width:10%" id="annotationCloseButton" title="Close" class="icon-button"><img src="/assets/close.0c29d81d.svg"/></button>
+      </div>
+      <div class="annotation-labels">
+        <label for="Label1" style="width:8em">Label:</label>
+        <input type="text" id="label1" maxlength="20" size="20"/>
+      </div>
+      <div class="annotation-labels">
+        <label for="Label2" style="width:10em">Label:</label>
+        <input type="text" id="label2" maxlength="20" size="20"/>
+      </div>
+      <div  id="notesAndSave">
+        <div class="annotation-labels">
+          <label for="notes" style="width:10em">Note:</label>
+          <textarea id="notes" maxlength="50" size="50"></textarea>
+        </div>
+        <button id="annotationSaveButton" title="Save" class="icon-button"><img src="/assets/tick.841ce4ac.svg"/></button>
+        <button id="annotationDeleteButton" title="Delete Annotation" class="icon-button"><img src="/assets/delete.ff8dd52d.svg"/></button>
+        <input type="hidden" id="annotationEditedId"/>
+      </div>
+    </div>
+    <div id="annotationsDisplay">
+      <!--<div class="annotation-row-display"><div class="annotation-label-display"><img src="icons/label-add.svg"/></div></div>-->
+    </div>
+    <div id="annotation-add-control" style="display:none" class="annotation-row-display"><div>
+      </div><div>
+        <button id="annotationAddButton" title="Add Annotation" class="icon-button">
+          <img src="/assets/plus.5282a04c.svg"/>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="iconPanel">
+    <!--<button id="ctrlToggleWind" title="Wind Barb" class="icon-button"><img src="icons/air.svg"/></button>-->
+    <div id="windbarbWrapper" class="ctrlDrawerWrapper">
+      <button id="ctrlToggleWind" title="Wind Barb" class="icon-button"><img src="/assets/air.0d70e4ab.svg"/></button>
+      <div id="windbarbDrawer" class="ctrlDrawer">
+        <div id="btnModeTrue" class="icon-button drawer-button selected" >TWA</div>
+        <div id="btnModeApparent" class="icon-button drawer-button" >AWA</div>
+        <div id="btnModeColor" class="icon-button drawer-button"><img src="/assets/color-palette.6bf366b0.svg"/></div>
+      </div>
+    </div>
+    <div id="separationModeWrapper" class="ctrlDrawerWrapper">
+      <button id="ctrlSeparationMode" title="Separation Mode" class="icon-button"><img src="/assets/separation.97468bb7.svg"/></button>
+      <div id="separationModeDrawer" class="ctrlDrawer">
+        <div id="btnModeWind" class="icon-button drawer-button selected" >TWD</div>
+        <div id="btnModeDist" class="icon-button drawer-button" >Dist</div>
+        <div id="btnModeWaypoint" class="icon-button drawer-button" ><img src="/assets/pin.22d682b9.svg"/></div>
+      </div>
+    </div>
+    <button id="ctrlShowSOG" title="SOG" class="icon-button selected" >SOG</button>
+    <button id="ctrlShowSTW" title="STW" class="icon-button">STW</button>
+    <button id="ctrlShowCurrent" title="Current" class="icon-button"><img src="/assets/current.8af1ad25.svg"/></button>
+    
+    <button id="ctrlShowVMG" title="VMG" class="icon-button">VMG</button>
+    <button id="ctrlTogglePolar" title="Polar Diagram" class="icon-button"><img src="/assets/polar.81d18a92.svg"/></button>
+    <button id="ctrlMeasure" title="Measure Distance" class="icon-button"><img src="/assets/measure.16018994.svg"/></button>
+    <button id="ctrlRecords" title="Show max" class="icon-button selected"><img src="/assets/records.6b674cee.svg"/></button>
+    
+    <div id="colorLegend" class="color-legend-container"></div>
+
+  </div>
+
+  <div class="controls-container">
+    <div class="button-group">
+      <button id="play" title="Play" ><img src="/assets/play.95679efb.svg"/></button>
+      <button id="pause" title="Pause"><img src="/assets/pause.a2593fed.svg"/></button>
+      <button id="reset" title="Reset" ><img src="/assets/refresh.6840c4a0.svg"/></button>
+      <button id="stepBack" title="Step Backward" ><img src="/assets/frame-back.9a3286ae.svg"/></button>
+      <button id="stepForward" title="Step Forward" ><img src="/assets/frame-forward.22798576.svg"/></button>
+      <button id="playSpeed" title="PlaySpeed" ><img src="/assets/play-speed.f15cd2d5.svg"/></button>
+      <div id="playSpeedSliderContainer" style="display: none;">
+        <input type="range" id="playSpeedSlider" min="1" max="20" step="1" value="10" orient="vertical" />
+      </div>
+    </div>
+
+    <div class="progress-bar">
+      <div class="range-container">
+        <div id="timeWindowBar" class="window-indicator" style="display:none"></div>
+        <input type="range" id="progressBar" value="0" min="0" max="1000" step="1" disabled />
+      </div>
+      <div class="form-row-no-border" style="justify-content: space-between;">
+        <div id="currentTime"></div>
+        <div class="form-row-no-border">
+          <div style="width:6em">STW:<span id="vesselSTW"></span></div>
+          <div style="width:6em">SOG:<span id="vesselSOG"></span></div>
+          <div style="width:6em">VMG:<span id="vesselVMG"></span></div>
+          <div style="width:6em">TWS:<span id="vesselTWS"></span></div>
+          <div style="width:6em">TWA:<span id="vesselTWA"></span></div>
+          <div style="width:6em">AWS:<span id="vesselAWS"></span></div>
+          <div style="width:6em">AWA:<span id="vesselAWA"></span></div>
+          <div style="width:6em">TWD:<span id="vesselTWD"></span></div>
+          <div style="width:6em">TH:<span id="vesselTH"></span></div>
+          <div style="width:6em">COG:<span id="vesselCOG"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="polarWrapper" class="polar-wrapper" style="display:none">
+    <div class="controls" >
+      <div id="polarPlot">
+        <div class="polar-overlay">
+          <button id="polarDotsToggle" title="Show Dots" class="icon-button"><img src="/assets/scatter.4e672096.svg"/></button>
+          <div id="polarLabels" class="form-row-no-border-space-between">
+            <button id="polarLabelMode" title="Use Labels" class="icon-button"><img src="/assets/label.564e9316.svg"/></button>
+            <div id="polarLabelList" class="form-column">
+            </div>
+          </div>
+          <div class="form-row-no-border-space-between">
+            <button id="polarWindowMode" title="Use Window" class="icon-button"><img src="/assets/edit.8923210e.svg"/></button>
+            <input type="text" id="polarWindow" maxlength="4" size="3" value="90m"/>
+          </div>
+          <div class="form-row-no-border-space-between">
+            <span id="polarbeginTime">--:--:--</span>
+            <span id="polarendTime">--:--:--</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</span>
+<span id="polar-builder" style="display:none">
+    <div id='pb-sidebar' class="pb-sidebar">
+    </div>
+    <div class="pb-map" id="pb-map"></div>
+  
+    <div class="pb-text-panel">
+      <table class="pb-table" id="pb-table">
+
+
+      </table>
+    </div>
+  
+    <div class="pb-plot">
+      <div id="pb-polar-plot">
+        <div class="polar-overlay-builder">
+          <button id="polarBuilderDotsToggle" title="Show Dots" class="icon-button"><img src="/assets/scatter.4e672096.svg"/></button>
+          <button id="halfPolarToggle" title="Half Polar" class="icon-button"><img src="/assets/halfpolar.277a5ae0.svg"/></button>
+          <button id="polarBuilderSave" title="Save Polar" class="icon-button"><img src="/assets/save-disk.07b13fc2.svg"/></button>
+        </div>
+
+      </div>
+    </div>
+</span>
+<!--
+<script src="https://cesium.com/downloads/cesiumjs/releases/1.113/Build/Cesium/Cesium.js"></script>
+<button id="toggle3d">Toggle 3D</button>
+-->
+<script src="https://accounts.google.com/gsi/client"></script>
+<script src="https://apis.google.com/js/api.js"></script>
+
+
+
+</body>
+</html>
