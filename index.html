@@ -18,14 +18,14 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@latest/ol.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol-cesium@latest/dist/olcesium.css">
-  <script type="module" crossorigin src="/assets/index.77a11e45.js"></script>
-  <link rel="stylesheet" href="/assets/index.6b797ba9.css">
+  <script type="module" crossorigin src="/assets/index.1b89784e.js"></script>
+  <link rel="stylesheet" href="/assets/index.eabadacf.css">
 </head>
 <body>
-<div id="playerMode" class=player-mode-control>
-  <div class="form-row-no-border">
-    <button id="playerModeButtonPolar" class="icon-button" title="Polar Builder"><img src="/assets/polar.81d18a92.svg"/></button>
-    <button id="playerModeButtonPlayer" class="icon-button selected" title="Race Player"><img src="/assets/play.95679efb.svg"/></button>
+<div id="playerMode" class="player-mode-control desktop-only">
+  <div class="form-row-no-border desktop-only">
+    <button id="playerModeButtonPolar" class="icon-button desktop-only" title="Polar Builder"><img src="/assets/polar.81d18a92.svg"/></button>
+    <button id="playerModeButtonPlayer" class="icon-button selected desktop-only" title="Race Player"><img src="/assets/play.95679efb.svg"/></button>
   </div>
 </div>
 <div id="loading-spinner" class="loading-overlay">
@@ -47,7 +47,7 @@
     <div class="controls" >
       <div class="form-row-no-border-space-between">
         <div class="form-row-no-border">
-          <button id="annotateButton" class="icon-button"  title="Edit Labels, Notes"><img src="/assets/label.564e9316.svg"/></button>
+          <button id="annotateButton" class="icon-button desktop-only"  title="Edit Labels, Notes"><img src="/assets/label.564e9316.svg"/></button>
           <button id="importDriveButton" class="icon-button" title="Import raw data from Google Drive"><img src="/assets/import-drive.48fa083f.svg"/></button>
           <button id="importFileButton" class="icon-button" title="Import raw data from File"><img src="/assets/import-file.0236bd90.svg"/></button>
         </div>
@@ -57,10 +57,10 @@
       <div class="file-controls form-row">
         <input type="file" id="fileInputNMEA" accept=".gpx, .json, .txt" style="display: none;"/>
         <button id="customFileButton" class="icon-button" title="Load from Google Drive"><img src="/assets/file-open.37081efa.svg"/></button>
-        <div id="fileNameSelected"></div>
+        <div id="fileNameSelected" class="desktop-only"></div>
         
-        <button id="saveButton" title="Save" class="icon-button"><img src="/assets/save-disk.07b13fc2.svg"/></button>
-        <button id="saveAsButton" title="Save As" class="icon-button"><img src="/assets/save-as-disk.ac8d4cef.svg"/></button>
+        <button id="saveButton" title="Save" class="icon-button desktop-only"><img src="/assets/save-disk.07b13fc2.svg"/></button>
+        <button id="saveAsButton" title="Save As" class="icon-button desktop-only"><img src="/assets/save-as-disk.ac8d4cef.svg"/></button>
       </div>
 
       <div id="legend">
@@ -134,21 +134,21 @@
     <button id="ctrlShowCurrent" title="Current" class="icon-button"><img src="/assets/current.8af1ad25.svg"/></button>
     
     <button id="ctrlShowVMG" title="VMG" class="icon-button">VMG</button>
-    <button id="ctrlTogglePolar" title="Polar Diagram" class="icon-button"><img src="/assets/polar.81d18a92.svg"/></button>
-    <button id="ctrlMeasure" title="Measure Distance" class="icon-button"><img src="/assets/measure.16018994.svg"/></button>
-    <button id="ctrlRecords" title="Show max" class="icon-button selected"><img src="/assets/records.6b674cee.svg"/></button>
+    <button id="ctrlTogglePolar" title="Polar Diagram" class="icon-button desktop-only"><img src="/assets/polar.81d18a92.svg"/></button>
+    <button id="ctrlMeasure" title="Measure Distance" class="icon-button desktop-only"><img src="/assets/measure.16018994.svg"/></button>
+    <button id="ctrlRecords" title="Show max" class="icon-button selected desktop-only"><img src="/assets/records.6b674cee.svg"/></button>
     
-    <div id="colorLegend" class="color-legend-container"></div>
+    <div id="colorLegend" class="color-legend-container desktop-only"></div>
 
   </div>
 
   <div class="controls-container">
     <div class="button-group">
-      <button id="play" title="Play" ><img src="/assets/play.95679efb.svg"/></button>
-      <button id="pause" title="Pause"><img src="/assets/pause.a2593fed.svg"/></button>
-      <button id="reset" title="Reset" ><img src="/assets/refresh.6840c4a0.svg"/></button>
-      <button id="stepBack" title="Step Backward" ><img src="/assets/frame-back.9a3286ae.svg"/></button>
-      <button id="stepForward" title="Step Forward" ><img src="/assets/frame-forward.22798576.svg"/></button>
+      <button id="play" title="Play" class="desktop-only"><img src="/assets/play.95679efb.svg"/></button>
+      <button id="pause" title="Pause" class="desktop-only"><img src="/assets/pause.a2593fed.svg"/></button>
+      <button id="reset" title="Reset" class="desktop-only"><img src="/assets/refresh.6840c4a0.svg"/></button>
+      <button id="stepBack" title="Step Backward" class="desktop-only"><img src="/assets/frame-back.9a3286ae.svg"/></button>
+      <button id="stepForward" title="Step Forward" class="desktop-only"><img src="/assets/frame-forward.22798576.svg"/></button>
       <button id="playSpeed" title="PlaySpeed" ><img src="/assets/play-speed.f15cd2d5.svg"/></button>
       <div id="playSpeedSliderContainer" style="display: none;">
         <input type="range" id="playSpeedSlider" min="1" max="20" step="1" value="10" orient="vertical" />
@@ -162,17 +162,17 @@
       </div>
       <div class="form-row-no-border" style="justify-content: space-between;">
         <div id="currentTime"></div>
-        <div class="form-row-no-border">
-          <div style="width:6em">STW:<span id="vesselSTW"></span></div>
-          <div style="width:6em">SOG:<span id="vesselSOG"></span></div>
-          <div style="width:6em">VMG:<span id="vesselVMG"></span></div>
-          <div style="width:6em">TWS:<span id="vesselTWS"></span></div>
-          <div style="width:6em">TWA:<span id="vesselTWA"></span></div>
-          <div style="width:6em">AWS:<span id="vesselAWS"></span></div>
-          <div style="width:6em">AWA:<span id="vesselAWA"></span></div>
-          <div style="width:6em">TWD:<span id="vesselTWD"></span></div>
-          <div style="width:6em">TH:<span id="vesselTH"></span></div>
-          <div style="width:6em">COG:<span id="vesselCOG"></span></div>
+        <div class="form-row-no-border desktop-only">
+          <div class="desktop-only" style="width:6em">STW:<span id="vesselSTW"></span></div>
+          <div class="desktop-only" style="width:6em">SOG:<span id="vesselSOG"></span></div>
+          <div class="desktop-only" style="width:6em">VMG:<span id="vesselVMG"></span></div>
+          <div class="desktop-only" style="width:6em">TWS:<span id="vesselTWS"></span></div>
+          <div class="desktop-only" style="width:6em">TWA:<span id="vesselTWA"></span></div>
+          <div class="desktop-only" style="width:6em">AWS:<span id="vesselAWS"></span></div>
+          <div class="desktop-only" style="width:6em">AWA:<span id="vesselAWA"></span></div>
+          <div class="desktop-only" style="width:6em">TWD:<span id="vesselTWD"></span></div>
+          <div class="desktop-only" style="width:6em">TH:<span id="vesselTH"></span></div>
+          <div class="desktop-only" style="width:6em">COG:<span id="vesselCOG"></span></div>
         </div>
       </div>
     </div>
