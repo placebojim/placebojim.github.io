@@ -18,8 +18,8 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@latest/ol.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol-cesium@latest/dist/olcesium.css">
-  <script type="module" crossorigin src="/assets/index.1b89784e.js"></script>
-  <link rel="stylesheet" href="/assets/index.5c41ab2a.css">
+  <script type="module" crossorigin src="/assets/index.c22199f2.js"></script>
+  <link rel="stylesheet" href="/assets/index.5e8c4a01.css">
 </head>
 <body>
 <div id="playerMode" class="player-mode-control desktop-only">
@@ -45,16 +45,16 @@
 
   <div class="controls-wrapper">
     <div class="controls" >
-      <div class="form-row-no-border-space-between">
-        <div class="form-row-no-border">
+      <div class="general-file-controls">
+        <div class="action-buttons">
           <button id="annotateButton" class="icon-button desktop-only"  title="Edit Labels, Notes"><img src="/assets/label.564e9316.svg"/></button>
-          <button id="importDriveButton" class="icon-button" title="Import raw data from Google Drive"><img src="/assets/import-drive.48fa083f.svg"/></button>
-          <button id="importFileButton" class="icon-button" title="Import raw data from File"><img src="/assets/import-file.0236bd90.svg"/></button>
+          <button id="importDriveButton" class="icon-button desktop-only" title="Import raw data from Google Drive"><img src="/assets/import-drive.48fa083f.svg"/></button>
+          <button id="importFileButton" class="icon-button desktop-only" title="Import raw data from File"><img src="/assets/import-file.0236bd90.svg"/></button>
         </div>
         <button id="g_id_signin">Drive Login</button>
       </div>
       
-      <div class="file-controls form-row">
+      <div class="file-controls">
         <input type="file" id="fileInputNMEA" accept=".gpx, .json, .txt" style="display: none;"/>
         <button id="customFileButton" class="icon-button" title="Load from Google Drive"><img src="/assets/file-open.37081efa.svg"/></button>
         <div id="fileNameSelected" class="desktop-only"></div>
@@ -102,12 +102,16 @@
     <div id="annotationsDisplay">
       <!--<div class="annotation-row-display"><div class="annotation-label-display"><img src="icons/label-add.svg"/></div></div>-->
     </div>
-    <div id="annotation-add-control" style="display:none" class="annotation-row-display"><div>
-      </div><div>
+    <div id="annotation-add-control" style="display:none" class="annotation-row-display">
+      <div>
         <button id="annotationAddButton" title="Add Annotation" class="icon-button">
           <img src="/assets/plus.5282a04c.svg"/>
         </button>
       </div>
+    </div>
+    <div id="annotation-notes-wrapper" style="display:none" class="annotation-notes-wrapper">
+      Race Notes:
+      <textarea id="race-notes" maxlength="500" size="300" rows="16" cols="50"></textarea>
     </div>
   </div>
 
@@ -121,6 +125,7 @@
         <div id="btnModeColor" class="icon-button drawer-button"><img src="/assets/color-palette.6bf366b0.svg"/></div>
       </div>
     </div>
+    <button id="ctrlShowWindSpd" title="Wind Speed" class="icon-button" ><img src="/assets/dir.951ee21d.svg"/></button>
     <div id="separationModeWrapper" class="ctrlDrawerWrapper">
       <button id="ctrlSeparationMode" title="Separation Mode" class="icon-button"><img src="/assets/separation.97468bb7.svg"/></button>
       <div id="separationModeDrawer" class="ctrlDrawer">
@@ -161,7 +166,7 @@
         <input type="range" id="progressBar" value="0" min="0" max="1000" step="1" disabled />
       </div>
       <div class="form-row-no-border" style="justify-content: space-between;">
-        <div id="currentTime "></div>
+        <div id="currentTime"></div>
         <div class="form-row-no-border desktop-only">
           <div class="desktop-only" style="width:6em">STW:<span id="vesselSTW"></span></div>
           <div class="desktop-only" style="width:6em">SOG:<span id="vesselSOG"></span></div>
@@ -192,7 +197,7 @@
             <button id="polarWindowMode" title="Use Window" class="icon-button"><img src="/assets/edit.8923210e.svg"/></button>
             <input type="text" id="polarWindow" maxlength="4" size="3" value="90m"/>
           </div>
-          <div class="form-row-no-border-space-between">
+          <div class="form-row-no-border-space-between" style="display:none">
             <span id="polarbeginTime">--:--:--</span>
             <span id="polarendTime">--:--:--</span>
           </div>
@@ -201,6 +206,8 @@
     </div>
   </div>
 </span>
+
+
 <span id="polar-builder" style="display:none">
     <div id='pb-sidebar' class="pb-sidebar">
     </div>
@@ -211,16 +218,28 @@
 
 
       </table>
+      <div class="editor-save-buttons">
+        <button id="polarBuilderSaveAs" title="Save Polar" class="icon-button"><img src="/assets/save-as-disk.ac8d4cef.svg"/></button>
+        <button id="polarBuilderSave" title="Save Polar" class="icon-button" style="display:none"><img src="/assets/save-disk.07b13fc2.svg"/></button>
+      </div>
     </div>
   
     <div class="pb-plot">
       <div id="pb-polar-plot">
-        <div class="polar-overlay-builder">
-          <button id="polarBuilderDotsToggle" title="Show Dots" class="icon-button"><img src="/assets/scatter.4e672096.svg"/></button>
-          <button id="halfPolarToggle" title="Half Polar" class="icon-button"><img src="/assets/halfpolar.277a5ae0.svg"/></button>
-          <button id="polarBuilderSave" title="Save Polar" class="icon-button"><img src="/assets/save-disk.07b13fc2.svg"/></button>
-        </div>
-
+      </div>
+      <div class="polar-overlay-builder">
+        <button id="polarBuilderDotsToggle" title="Show Dots" class="icon-button"><img src="/assets/scatter.4e672096.svg"/></button>
+        <button id="halfPolarToggle" title="Half Polar" class="icon-button"><img src="/assets/halfpolar.277a5ae0.svg"/></button>
+      </div>
+      <div class="polar-overlay-data-select">
+        <button id="polarDataLeft" title="Race Data" class="icon-button"><img src="/assets/arrow_left.8f2aa86c.svg"/></button>
+        <button id="polarDataRight" title="Polar File" class="icon-button"><img src="/assets/arrow_right.e334f8cd.svg"/></button>
+      </div>
+    </div>
+    <div id="pb-polar-list" class="pb-polar-list">
+      Polar File List
+      <div id="pb-polar-list-container">
+        
       </div>
     </div>
 </span>
