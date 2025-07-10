@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self'; 
     script-src 'self' blob: 'unsafe-eval' https://accounts.google.com https://apis.google.com https://www.googleapis.com https://cdn.jsdelivr.net https://cesium.com https://drive.google.com; 
-    connect-src 'self' https://oauth2.googleapis.com https://www.googleapis.com https://accounts.google.com https://cesium.com tile.openstreetmap.org https://drive.google.com; 
+    connect-src 'self' https://oauth2.googleapis.com https://www.googleapis.com https://accounts.google.com https://cesium.com tile.openstreetmap.org https://drive.google.com https://corsproxy.io; 
     frame-src 'self' https://accounts.google.com https://docs.google.com; 
     style-src 'self' 'unsafe-inline' https://accounts.google.com https://cdn.jsdelivr.net; 
     img-src 'self' data: tile.openstreetmap.org  https://cesium.com;
@@ -18,7 +18,7 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@latest/ol.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol-cesium@latest/dist/olcesium.css">
-  <script type="module" crossorigin src="/assets/index.6593e914.js"></script>
+  <script type="module" crossorigin src="/assets/index.fc94d8e1.js"></script>
   <link rel="stylesheet" href="/assets/index.5e8c4a01.css">
 </head>
 <body>
@@ -48,7 +48,7 @@
       <div class="general-file-controls">
         <div class="action-buttons">
           <button id="annotateButton" class="icon-button desktop-only"  title="Edit Labels, Notes"><img src="/assets/label.564e9316.svg"/></button>
-          <button id="importDriveButton" class="icon-button desktop-only" title="Import raw data from Google Drive"><img src="/assets/import-drive.48fa083f.svg"/></button>
+          <!--button id="importDriveButton" class="icon-button desktop-only" title="Import raw data from Google Drive"><img src="icons/import-drive.svg"/></button-->
           <button id="importFileButton" class="icon-button desktop-only" title="Import raw data from File"><img src="/assets/import-file.0236bd90.svg"/></button>
         </div>
         <button id="g_id_signin">Drive Login</button>
