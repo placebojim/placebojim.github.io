@@ -18,7 +18,7 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@latest/ol.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol-cesium@latest/dist/olcesium.css">
-  <script type="module" crossorigin src="/assets/index.109cf0ba.js"></script>
+  <script type="module" crossorigin src="/assets/index.45f86ca5.js"></script>
   <link rel="stylesheet" href="/assets/index.5e8c4a01.css">
 </head>
 <body>
@@ -57,7 +57,7 @@
         
         <div class="file-controls">
           <input type="file" id="fileInputNMEA" accept=".gpx, .json, .txt" style="display: none;"/>
-          <button id="customFileButton" class="icon-button" title="Load from Google Drive"><img src="/assets/file-open.37081efa.svg"/></button>
+          <button id="loadJsonFileButton" class="icon-button" title="Load from Google Drive"><img src="/assets/file-open.37081efa.svg"/></button>
           <div id="fileNameSelected" class="desktop-only"></div>
           
           <button id="saveButton" title="Save" class="icon-button desktop-only"><img src="/assets/save-disk.07b13fc2.svg"/></button>
@@ -157,7 +157,7 @@
       <button id="stepForward" title="Step Forward" class="desktop-only"><img src="/assets/frame-forward.22798576.svg"/></button>
       <button id="playSpeed" title="PlaySpeed" ><img src="/assets/play-speed.f15cd2d5.svg"/></button>
       <div id="playSpeedSliderContainer" style="display: none;">
-        <input type="range" id="playSpeedSlider" min="1" max="20" step="1" value="10" orient="vertical" />
+        <input type="range" id="playSpeedSlider" min="1" max="100" step="5" value="50" orient="vertical" />
       </div>
     </div>
 
