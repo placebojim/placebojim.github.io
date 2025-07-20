@@ -18,8 +18,8 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@latest/ol.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol-cesium@latest/dist/olcesium.css">
-  <script type="module" crossorigin src="/assets/index.1007ddfb.js"></script>
-  <link rel="stylesheet" href="/assets/index.5e8c4a01.css">
+  <script type="module" crossorigin src="/assets/index.c677acba.js"></script>
+  <link rel="stylesheet" href="/assets/index.325bb6bf.css">
 </head>
 <body>
 <div id="playerMode" class="player-mode-control desktop-only">
@@ -50,7 +50,7 @@
           <div class="action-buttons">
             <button id="annotateButton" class="icon-button desktop-only"  title="Edit Labels, Notes"><img src="/assets/label.564e9316.svg"/></button>
             <!--button id="importDriveButton" class="icon-button desktop-only" title="Import raw data from Google Drive"><img src="icons/import-drive.svg"/></button-->
-            <button id="importFileButton" class="icon-button desktop-only" title="Import raw data from File"><img src="/assets/import-file.0236bd90.svg"/></button>
+            <button id="importFileButton" class="icon-button" title="Import raw data from File"><img src="/assets/import-file.0236bd90.svg"/></button>
           </div>
           <button id="g_id_signin">Drive Login</button>
         </div>
@@ -113,6 +113,10 @@
     <div id="annotation-notes-wrapper" style="display:none" class="annotation-notes-wrapper">
       Race Notes:
       <textarea id="race-notes" maxlength="500" size="300" rows="16" cols="50"></textarea>
+    </div>
+
+    <div id="vessel-info-wrapper" style="display:none" class="vessel-info-wrapper">
+      <button id="vessel-info-close" title="Save" class="icon-button"><img src="/assets/close.0c29d81d.svg"/></button>
     </div>
   </div>
 
