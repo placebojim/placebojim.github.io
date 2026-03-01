@@ -18,19 +18,25 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@latest/ol.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol-cesium@latest/dist/olcesium.css">
-  <script type="module" crossorigin src="/assets/index.c1807d25.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script type="module" crossorigin src="/assets/index.a5c7269c.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill.c7c6310f.js">
-  <link rel="stylesheet" href="/assets/index.6f405527.css">
+  <link rel="stylesheet" href="/assets/index.d4d17d50.css">
 </head>
 <body>
 <div id="playerMode" class="player-mode-control desktop-only">
   <div class="form-row-no-border desktop-only">
     <button id="playerModeButtonPolar" class="icon-button desktop-only" title="Polar Builder"><img src="/assets/polar.81d18a92.svg"/></button>
     <button id="playerModeButtonPlayer" class="icon-button selected desktop-only" title="Race Player"><img src="/assets/play.95679efb.svg"/></button>
+    <button id="playerModeButtonHelp" class="icon-button desktop-only" title="Help"><img src="/assets/help.975207e6.svg"/></button>
+    <button id="playerModeButtonSettings" class="icon-button desktop-only" title="Settings"><img src="/assets/settings.ae8d875e.svg"/></button>
   </div>
 </div>
 <div id="loading-spinner" class="loading-overlay">
-  <div class="spinner"></div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div class="spinner"></div>
+    <div id="loading-message" style="margin-top: 10px; color: #333; font-weight: bold;"></div>
+  </div>
 </div>
 <span id="map-player">
   <div id="map" tabindex="0"></div>
@@ -123,28 +129,37 @@
 
   <div id="iconPanel">
     <!--<button id="ctrlToggleWind" title="Wind Barb" class="icon-button"><img src="icons/air.svg"/></button>-->
+    <div id="speedDataWrapper" class="ctrlDrawerWrapper">
+      <button id="ctrlToggleSpeedData" title="Speed Data Drawer" class="icon-button"><img src="/assets/track.d52389c7.svg"/></button>
+      <div id="speedDataDrawer" class="ctrlDrawer">
+        <div id="ctrlShowSOG" title="SOG" class="icon-button selected" >SOG</div>
+        <div id="ctrlShowSTW" class="icon-button">STW</div>
+        <div id="ctrlShowCurrent" class="icon-button drawer-button"><img src="/assets/current.8af1ad25.svg"/></div>
+        <div id="ctrlShowVMG" class="icon-button">VMG</div>
+        <div id="ctrlShowWindSpd" class="icon-button drawer-button"><img src="/assets/dir.951ee21d.svg"/></div>
+        <div id="ctrlShowPolarPerf" class="icon-button drawer-button"><img src="/assets/polar.81d18a92.svg"/></div>
+      </div>
+    </div>
     <div id="windbarbWrapper" class="ctrlDrawerWrapper">
       <button id="ctrlToggleWind" title="Wind Barb" class="icon-button"><img src="/assets/air.0d70e4ab.svg"/></button>
       <div id="windbarbDrawer" class="ctrlDrawer">
-        <div id="btnModeTrue" class="icon-button drawer-button selected" >TWA</div>
-        <div id="btnModeApparent" class="icon-button drawer-button" >AWA</div>
+        <div id="btnModeTrue" class="icon-button selected" >TWA</div>
+        <div id="btnModeApparent" class="icon-button" >AWA</div>
         <div id="btnModeColor" class="icon-button drawer-button"><img src="/assets/color-palette.6bf366b0.svg"/></div>
       </div>
     </div>
-    <button id="ctrlShowWindSpd" title="Wind Speed" class="icon-button" ><img src="/assets/dir.951ee21d.svg"/></button>
     <div id="separationModeWrapper" class="ctrlDrawerWrapper">
       <button id="ctrlSeparationMode" title="Separation Mode" class="icon-button"><img src="/assets/separation.97468bb7.svg"/></button>
       <div id="separationModeDrawer" class="ctrlDrawer">
-        <div id="btnModeWind" class="icon-button drawer-button selected" >TWD</div>
-        <div id="btnModeDist" class="icon-button drawer-button" >Dist</div>
-        <div id="btnModeWaypoint" class="icon-button drawer-button" ><img src="/assets/pin.22d682b9.svg"/></div>
+        <div id="btnModeWind" class="icon-button selected" >TWD</div>
+        <div id="btnModeDist" class="icon-button" >Dist</div>
+        <div id="btnModeWaypoint" class="icon-button drawer-button" ><img src="/assets/goto.31355e8a.svg"/></div>
+        <div class="drawer-divider"></div>
+        <div id="btnModeMeters" class="icon-button drawer-button selected">m</div>
+        <div id="btnModeTime" class="icon-button drawer-button"><img src="/assets/timer.71246d70.svg"/></div>
       </div>
     </div>
-    <button id="ctrlShowSOG" title="SOG" class="icon-button selected" >SOG</button>
-    <button id="ctrlShowSTW" title="STW" class="icon-button">STW</button>
-    <button id="ctrlShowCurrent" title="Current" class="icon-button"><img src="/assets/current.8af1ad25.svg"/></button>
-    
-    <button id="ctrlShowVMG" title="VMG" class="icon-button">VMG</button>
+    <button id="ctrlToggleManeuvers" title="Show Maneuvers" class="icon-button"><img src="/assets/course-segments.b06ae15f.svg"/></button>
     <button id="ctrlTogglePolar" title="Polar Diagram" class="icon-button desktop-only"><img src="/assets/polar.81d18a92.svg"/></button>
     <button id="ctrlMeasure" title="Measure Distance" class="icon-button desktop-only"><img src="/assets/measure.16018994.svg"/></button>
     <button id="ctrlRecords" title="Show max" class="icon-button selected desktop-only"><img src="/assets/records.6b674cee.svg"/></button>
@@ -185,6 +200,9 @@
           <div class="desktop-only" style="width:6em">TWD:<span id="vesselTWD"></span></div>
           <div class="desktop-only" style="width:6em">TH:<span id="vesselTH"></span></div>
           <div class="desktop-only" style="width:6em">COG:<span id="vesselCOG"></span></div>
+          <div class="desktop-only" style="width:6em">Polar:<span id="vesselPolar"></span></div>
+          <div class="desktop-only" style="width:6em">Heel:<span id="vesselHeel"></span></div>
+          <div class="desktop-only" style="width:6em">Leeway:<span id="vesselLeeway"></span></div>
         </div>
       </div>
     </div>
@@ -214,6 +232,68 @@
   </div>
 </span>
 
+<div id="settings-view" style="display:none">
+  <div class="settings-content">
+    <div class="settings-section">
+      <h3>Polars</h3>
+      <hr class="settings-divider">
+      <div class="settings-row">
+        <label>Default Polar File:</label>
+        <span id="currentPolarFileName">None selected</span>
+      </div>
+      <div class="settings-row">
+        <button id="choosePolarButton" class="settings-button">Choose Polar File</button>
+        <button id="clearPolarButton" class="settings-button">Clear Selection</button>
+        <i>Sets the polar file used to display performance against polar in the player</i>
+      </div>
+    </div>
+    <div class="settings-section">
+      <h3>Wind Calculation</h3>
+      <hr class="settings-divider">
+      <div class="settings-row">
+        <label>
+          <input type="checkbox" id="useCalculatedWindCheckbox" />
+          Use Calculated Wind (TWA, TWD, AWD)
+        </label>
+        <i>This may be more accurate than your instruments</i>
+      </div>
+      <div class="settings-row" style="margin-left: 20px;">
+        <label>
+          <input type="checkbox" id="useSOGCheckbox" />
+          Use SOG instead of boat speed
+        </label>
+        <i>Helps account for current</i>
+      </div>
+      <div class="settings-row" style="margin-left: 20px;">
+        <label>
+          <input type="checkbox" id="useLeewayCheckbox" />
+          Apply leeway correction
+        </label>
+      </div>
+    </div>
+    <div class="settings-section">
+      <h3>Leeway</h3>
+      <hr class="settings-divider">
+      <div class="settings-row">
+        <label>Leeway K Factor (0-20):</label>
+        <input type="number" id="leewayKInput" min="0" max="20" step="0.5" value="10" style="width: 80px;" /> 
+        <i>This is displayed as data, but also used in the Wind Calc optionally above, 10 is a good start. Performance yachts would be a bit below 10</i>
+      </div>
+    </div>
+    <div class="settings-section">
+      <h3>Tools</h3>
+      <hr class="settings-divider">
+      <div class="settings-row">
+        <a href="upload-tool.html" target="_blank">Upload Tool</a>
+        <i>For uploading files to google drive like polars etc, this must be done using this form or else the app will not be able to access them.</i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="help-viewer" style="display:none">
+  <div id="help-content" class="help-content"></div>
+</div>
 
 <span id="polar-builder" style="display:none">
     <div id='pb-sidebar' class="pb-sidebar">
