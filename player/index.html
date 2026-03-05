@@ -5,20 +5,23 @@
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self'; 
     script-src 'self' blob: 'unsafe-eval' https://accounts.google.com https://apis.google.com https://www.googleapis.com https://cdn.jsdelivr.net https://cesium.com https://drive.google.com; 
-    connect-src 'self' https://oauth2.googleapis.com https://www.googleapis.com https://accounts.google.com https://cesium.com tile.openstreetmap.org https://drive.google.com https://corsproxy.io https://*.lambda-url.ap-southeast-2.on.aws https://s3.amazonaws.com; 
+    connect-src 'self' https://oauth2.googleapis.com https://www.googleapis.com https://accounts.google.com https://cesium.com tile.openstreetmap.org https://drive.google.com https://corsproxy.io https://*.lambda-url.ap-southeast-2.on.aws; 
     frame-src 'self' https://accounts.google.com https://docs.google.com; 
     style-src 'self' 'unsafe-inline' https://accounts.google.com https://cdn.jsdelivr.net; 
-    img-src 'self' data: tile.openstreetmap.org https://cesium.com https://s3.amazonaws.com;
+    img-src 'self' data: tile.openstreetmap.org  https://cesium.com;
     worker-src 'self' blob:;
   ">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sail Data Player</title>
-  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.0.0/dist/maplibre-gl.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@latest/ol.css">
   
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@latest/ol.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol-cesium@latest/dist/olcesium.css">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script type="module" crossorigin src="/player/assets/index.fcc48914.js"></script>
+  <script type="module" crossorigin src="/player/assets/index.a5c7269c.js"></script>
   <link rel="modulepreload" crossorigin href="/player/assets/modulepreload-polyfill.c7c6310f.js">
-  <link rel="stylesheet" href="/player/assets/index.2b8a9855.css">
+  <link rel="stylesheet" href="/player/assets/index.d4d17d50.css">
 </head>
 <body>
 <div id="playerMode" class="player-mode-control desktop-only">
