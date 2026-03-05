@@ -19,6 +19,12 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
     marked.setOptions({ breaks: true });
+    
+    // Redirect if ?id= parameter exists
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('id')) {
+      window.location.href = 'https://placebojim.github.io/player/' + window.location.search;
+    }
   </script>
 </head>
 <body>
