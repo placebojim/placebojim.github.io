@@ -5,31 +5,28 @@
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self'; 
     script-src 'self' blob: 'unsafe-eval' https://accounts.google.com https://apis.google.com https://www.googleapis.com https://cdn.jsdelivr.net https://cesium.com https://drive.google.com; 
-    connect-src 'self' https://oauth2.googleapis.com https://www.googleapis.com https://accounts.google.com https://cesium.com tile.openstreetmap.org https://drive.google.com https://corsproxy.io https://*.lambda-url.ap-southeast-2.on.aws; 
+    connect-src 'self' https://oauth2.googleapis.com https://www.googleapis.com https://accounts.google.com https://cesium.com tile.openstreetmap.org https://drive.google.com https://corsproxy.io https://*.lambda-url.ap-southeast-2.on.aws https://s3.amazonaws.com; 
     frame-src 'self' https://accounts.google.com https://docs.google.com; 
     style-src 'self' 'unsafe-inline' https://accounts.google.com https://cdn.jsdelivr.net; 
-    img-src 'self' data: tile.openstreetmap.org  https://cesium.com;
+    img-src 'self' data: tile.openstreetmap.org https://cesium.com https://s3.amazonaws.com;
     worker-src 'self' blob:;
   ">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sail Data Player</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@latest/ol.css">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.0.0/dist/maplibre-gl.css" />
   
-
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@latest/ol.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol-cesium@latest/dist/olcesium.css">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script type="module" crossorigin src="/assets/index.a5c7269c.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill.c7c6310f.js">
-  <link rel="stylesheet" href="/assets/index.d4d17d50.css">
+  <script type="module" crossorigin src="/player/assets/index.fcc48914.js"></script>
+  <link rel="modulepreload" crossorigin href="/player/assets/modulepreload-polyfill.c7c6310f.js">
+  <link rel="stylesheet" href="/player/assets/index.2b8a9855.css">
 </head>
 <body>
 <div id="playerMode" class="player-mode-control desktop-only">
   <div class="form-row-no-border desktop-only">
-    <button id="playerModeButtonPolar" class="icon-button desktop-only" title="Polar Builder"><img src="/assets/polar.81d18a92.svg"/></button>
-    <button id="playerModeButtonPlayer" class="icon-button selected desktop-only" title="Race Player"><img src="/assets/play.95679efb.svg"/></button>
-    <button id="playerModeButtonHelp" class="icon-button desktop-only" title="Help"><img src="/assets/help.975207e6.svg"/></button>
-    <button id="playerModeButtonSettings" class="icon-button desktop-only" title="Settings"><img src="/assets/settings.ae8d875e.svg"/></button>
+    <button id="playerModeButtonPolar" class="icon-button desktop-only" title="Polar Builder"><img src="/player/assets/polar.81d18a92.svg"/></button>
+    <button id="playerModeButtonPlayer" class="icon-button selected desktop-only" title="Race Player"><img src="/player/assets/play.95679efb.svg"/></button>
+    <button id="playerModeButtonHelp" class="icon-button desktop-only" title="Help"><img src="/player/assets/help.975207e6.svg"/></button>
+    <button id="playerModeButtonSettings" class="icon-button desktop-only" title="Settings"><img src="/player/assets/settings.ae8d875e.svg"/></button>
   </div>
 </div>
 <div id="loading-spinner" class="loading-overlay">
@@ -55,20 +52,20 @@
       <span id="controls-visible" >
         <div class="general-file-controls">
           <div class="action-buttons">
-            <button id="annotateButton" class="icon-button desktop-only"  title="Edit Labels, Notes"><img src="/assets/label.564e9316.svg"/></button>
+            <button id="annotateButton" class="icon-button desktop-only"  title="Edit Labels, Notes"><img src="/player/assets/label.564e9316.svg"/></button>
             <!--button id="importDriveButton" class="icon-button desktop-only" title="Import raw data from Google Drive"><img src="icons/import-drive.svg"/></button-->
-            <button id="importFileButton" class="icon-button" title="Import raw data from File"><img src="/assets/import-file.0236bd90.svg"/></button>
+            <button id="importFileButton" class="icon-button" title="Import raw data from File"><img src="/player/assets/import-file.0236bd90.svg"/></button>
           </div>
           <button id="g_id_signin">Drive Login</button>
         </div>
         
         <div class="file-controls">
           <input type="file" id="fileInputNMEA" accept=".gpx, .json, .txt" style="display: none;"/>
-          <button id="loadJsonFileButton" class="icon-button" title="Load from Google Drive"><img src="/assets/file-open.37081efa.svg"/></button>
+          <button id="loadJsonFileButton" class="icon-button" title="Load from Google Drive"><img src="/player/assets/file-open.37081efa.svg"/></button>
           <div id="fileNameSelected" class="desktop-only"></div>
           
-          <button id="saveButton" title="Save" class="icon-button desktop-only"><img src="/assets/save-disk.07b13fc2.svg"/></button>
-          <button id="saveAsButton" title="Save As" class="icon-button"><img src="/assets/save-as-disk.ac8d4cef.svg"/></button>
+          <button id="saveButton" title="Save" class="icon-button desktop-only"><img src="/player/assets/save-disk.07b13fc2.svg"/></button>
+          <button id="saveAsButton" title="Save As" class="icon-button"><img src="/player/assets/save-as-disk.ac8d4cef.svg"/></button>
         </div>
       </span>  
       <div id="legend" class="vessel-list">
@@ -78,16 +75,16 @@
     <div id="annotations" class="annotations" style="display:none">
       <div class="form-row">
         <div style="width:45%">
-          <button id="beginButton" title="Set Start" class="icon-button"><img src="/assets/label-start.c18f8c91.svg"/></button>
+          <button id="beginButton" title="Set Start" class="icon-button"><img src="/player/assets/label-start.c18f8c91.svg"/></button>
           <span id="beginTime">--:--:--</span>
           <input id="beginTimeInput" type="hidden" >
         </div>
         <div style="width:45%">
-          <button id="endButton" class="icon-button" title="Set End"><img src="/assets/label-end.cd516fbf.svg"/></button>
+          <button id="endButton" class="icon-button" title="Set End"><img src="/player/assets/label-end.cd516fbf.svg"/></button>
           <span id="endTime">--:--:--</span>
           <input id="endTimeInput" type="hidden" >
         </div>
-        <button style="width:10%" id="annotationCloseButton" title="Close" class="icon-button"><img src="/assets/close.0c29d81d.svg"/></button>
+        <button style="width:10%" id="annotationCloseButton" title="Close" class="icon-button"><img src="/player/assets/close.0c29d81d.svg"/></button>
       </div>
       <div class="annotation-labels">
         <label for="Label1" style="width:8em">Label:</label>
@@ -102,8 +99,8 @@
           <label for="notes" style="width:10em">Note:</label>
           <textarea id="notes" maxlength="50" size="50"></textarea>
         </div>
-        <button id="annotationSaveButton" title="Save" class="icon-button"><img src="/assets/tick.841ce4ac.svg"/></button>
-        <button id="annotationDeleteButton" title="Delete Annotation" class="icon-button"><img src="/assets/delete.ff8dd52d.svg"/></button>
+        <button id="annotationSaveButton" title="Save" class="icon-button"><img src="/player/assets/tick.841ce4ac.svg"/></button>
+        <button id="annotationDeleteButton" title="Delete Annotation" class="icon-button"><img src="/player/assets/delete.ff8dd52d.svg"/></button>
         <input type="hidden" id="annotationEditedId"/>
       </div>
     </div>
@@ -113,7 +110,7 @@
     <div id="annotation-add-control" style="display:none" class="annotation-row-display">
       <div>
         <button id="annotationAddButton" title="Add Annotation" class="icon-button">
-          <img src="/assets/plus.5282a04c.svg"/>
+          <img src="/player/assets/plus.5282a04c.svg"/>
         </button>
       </div>
     </div>
@@ -123,46 +120,46 @@
     </div>
 
     <div id="vessel-info-wrapper" style="display:none" class="vessel-info-wrapper">
-      <button id="vessel-info-close" title="Save" class="icon-button"><img src="/assets/close.0c29d81d.svg"/></button>
+      <button id="vessel-info-close" title="Save" class="icon-button"><img src="/player/assets/close.0c29d81d.svg"/></button>
     </div>
   </div>
 
   <div id="iconPanel">
     <!--<button id="ctrlToggleWind" title="Wind Barb" class="icon-button"><img src="icons/air.svg"/></button>-->
     <div id="speedDataWrapper" class="ctrlDrawerWrapper">
-      <button id="ctrlToggleSpeedData" title="Speed Data Drawer" class="icon-button"><img src="/assets/track.d52389c7.svg"/></button>
+      <button id="ctrlToggleSpeedData" title="Speed Data Drawer" class="icon-button"><img src="/player/assets/track.d52389c7.svg"/></button>
       <div id="speedDataDrawer" class="ctrlDrawer">
         <div id="ctrlShowSOG" title="SOG" class="icon-button selected" >SOG</div>
         <div id="ctrlShowSTW" class="icon-button">STW</div>
-        <div id="ctrlShowCurrent" class="icon-button drawer-button"><img src="/assets/current.8af1ad25.svg"/></div>
+        <div id="ctrlShowCurrent" class="icon-button drawer-button"><img src="/player/assets/current.8af1ad25.svg"/></div>
         <div id="ctrlShowVMG" class="icon-button">VMG</div>
-        <div id="ctrlShowWindSpd" class="icon-button drawer-button"><img src="/assets/dir.951ee21d.svg"/></div>
-        <div id="ctrlShowPolarPerf" class="icon-button drawer-button"><img src="/assets/polar.81d18a92.svg"/></div>
+        <div id="ctrlShowWindSpd" class="icon-button drawer-button"><img src="/player/assets/dir.951ee21d.svg"/></div>
+        <div id="ctrlShowPolarPerf" class="icon-button drawer-button"><img src="/player/assets/polar.81d18a92.svg"/></div>
       </div>
     </div>
     <div id="windbarbWrapper" class="ctrlDrawerWrapper">
-      <button id="ctrlToggleWind" title="Wind Barb" class="icon-button"><img src="/assets/air.0d70e4ab.svg"/></button>
+      <button id="ctrlToggleWind" title="Wind Barb" class="icon-button"><img src="/player/assets/air.0d70e4ab.svg"/></button>
       <div id="windbarbDrawer" class="ctrlDrawer">
         <div id="btnModeTrue" class="icon-button selected" >TWA</div>
         <div id="btnModeApparent" class="icon-button" >AWA</div>
-        <div id="btnModeColor" class="icon-button drawer-button"><img src="/assets/color-palette.6bf366b0.svg"/></div>
+        <div id="btnModeColor" class="icon-button drawer-button"><img src="/player/assets/color-palette.6bf366b0.svg"/></div>
       </div>
     </div>
     <div id="separationModeWrapper" class="ctrlDrawerWrapper">
-      <button id="ctrlSeparationMode" title="Separation Mode" class="icon-button"><img src="/assets/separation.97468bb7.svg"/></button>
+      <button id="ctrlSeparationMode" title="Separation Mode" class="icon-button"><img src="/player/assets/separation.97468bb7.svg"/></button>
       <div id="separationModeDrawer" class="ctrlDrawer">
         <div id="btnModeWind" class="icon-button selected" >TWD</div>
         <div id="btnModeDist" class="icon-button" >Dist</div>
-        <div id="btnModeWaypoint" class="icon-button drawer-button" ><img src="/assets/goto.31355e8a.svg"/></div>
+        <div id="btnModeWaypoint" class="icon-button drawer-button" ><img src="/player/assets/goto.31355e8a.svg"/></div>
         <div class="drawer-divider"></div>
         <div id="btnModeMeters" class="icon-button drawer-button selected">m</div>
-        <div id="btnModeTime" class="icon-button drawer-button"><img src="/assets/timer.71246d70.svg"/></div>
+        <div id="btnModeTime" class="icon-button drawer-button"><img src="/player/assets/timer.71246d70.svg"/></div>
       </div>
     </div>
-    <button id="ctrlToggleManeuvers" title="Show Maneuvers" class="icon-button"><img src="/assets/course-segments.b06ae15f.svg"/></button>
-    <button id="ctrlTogglePolar" title="Polar Diagram" class="icon-button desktop-only"><img src="/assets/polar.81d18a92.svg"/></button>
-    <button id="ctrlMeasure" title="Measure Distance" class="icon-button desktop-only"><img src="/assets/measure.16018994.svg"/></button>
-    <button id="ctrlRecords" title="Show max" class="icon-button selected desktop-only"><img src="/assets/records.6b674cee.svg"/></button>
+    <button id="ctrlToggleManeuvers" title="Show Maneuvers" class="icon-button"><img src="/player/assets/course-segments.b06ae15f.svg"/></button>
+    <button id="ctrlTogglePolar" title="Polar Diagram" class="icon-button desktop-only"><img src="/player/assets/polar.81d18a92.svg"/></button>
+    <button id="ctrlMeasure" title="Measure Distance" class="icon-button desktop-only"><img src="/player/assets/measure.16018994.svg"/></button>
+    <button id="ctrlRecords" title="Show max" class="icon-button selected desktop-only"><img src="/player/assets/records.6b674cee.svg"/></button>
     
     <div id="colorLegend" class="color-legend-container desktop-only"></div>
 
@@ -170,13 +167,13 @@
 
   <div class="controls-container">
     <div class="button-group">
-      <button id="play" title="Play" class="desktop-only"><img src="/assets/play.95679efb.svg"/></button>
-      <button id="pause" title="Pause" class="desktop-only"><img src="/assets/pause.a2593fed.svg"/></button>
-      <button id="reset" title="Reset" class="desktop-only"><img src="/assets/refresh.6840c4a0.svg"/></button>
-      <button id="stepBack" title="Step Backward" class="desktop-only"><img src="/assets/frame-back.9a3286ae.svg"/></button>
-      <button id="stepForward" title="Step Forward" class="desktop-only"><img src="/assets/frame-forward.22798576.svg"/></button>
-      <button id="playSpeed" title="PlaySpeed" ><img src="/assets/play-speed.f15cd2d5.svg"/></button>
-      <button id="startPoint" title="Start Point" class="desktop-only"><img src="/assets/start-flag.b94a1ee0.svg"/></button>
+      <button id="play" title="Play" class="desktop-only"><img src="/player/assets/play.95679efb.svg"/></button>
+      <button id="pause" title="Pause" class="desktop-only"><img src="/player/assets/pause.a2593fed.svg"/></button>
+      <button id="reset" title="Reset" class="desktop-only"><img src="/player/assets/refresh.6840c4a0.svg"/></button>
+      <button id="stepBack" title="Step Backward" class="desktop-only"><img src="/player/assets/frame-back.9a3286ae.svg"/></button>
+      <button id="stepForward" title="Step Forward" class="desktop-only"><img src="/player/assets/frame-forward.22798576.svg"/></button>
+      <button id="playSpeed" title="PlaySpeed" ><img src="/player/assets/play-speed.f15cd2d5.svg"/></button>
+      <button id="startPoint" title="Start Point" class="desktop-only"><img src="/player/assets/start-flag.b94a1ee0.svg"/></button>
       <div id="playSpeedSliderContainer" style="display: none;">
         <input type="range" id="playSpeedSlider" min="1" max="100" step="5" value="50" orient="vertical" />
       </div>
@@ -212,14 +209,14 @@
     <div class="controls" >
       <div id="polarPlot">
         <div class="polar-overlay">
-          <button id="polarDotsToggle" title="Show Dots" class="icon-button"><img src="/assets/scatter.4e672096.svg"/></button>
+          <button id="polarDotsToggle" title="Show Dots" class="icon-button"><img src="/player/assets/scatter.4e672096.svg"/></button>
           <div id="polarLabels" class="form-row-no-border-space-between">
-            <button id="polarLabelMode" title="Use Labels" class="icon-button"><img src="/assets/label.564e9316.svg"/></button>
+            <button id="polarLabelMode" title="Use Labels" class="icon-button"><img src="/player/assets/label.564e9316.svg"/></button>
             <div id="polarLabelList" class="form-column">
             </div>
           </div>
           <div class="form-row-no-border-space-between">
-            <button id="polarWindowMode" title="Use Window" class="icon-button"><img src="/assets/edit.8923210e.svg"/></button>
+            <button id="polarWindowMode" title="Use Window" class="icon-button"><img src="/player/assets/edit.8923210e.svg"/></button>
             <input type="text" id="polarWindow" maxlength="4" size="3" value="90m"/>
           </div>
           <div class="form-row-no-border-space-between" style="display:none">
@@ -307,9 +304,9 @@
 
       </table>
       <div class="editor-save-buttons">
-        <button id="polarBuilderSaveAs" title="Save Polar" class="icon-button"><img src="/assets/save-as-disk.ac8d4cef.svg"/></button>
-        <button id="polarBuilderSave" title="Save Polar" class="icon-button" style="display:none"><img src="/assets/save-disk.07b13fc2.svg"/></button>
-        <button id="polarBuilderExport" title="Export Polar" class="icon-button"><img src="/assets/share.83ba1025.svg"/></button>
+        <button id="polarBuilderSaveAs" title="Save Polar" class="icon-button"><img src="/player/assets/save-as-disk.ac8d4cef.svg"/></button>
+        <button id="polarBuilderSave" title="Save Polar" class="icon-button" style="display:none"><img src="/player/assets/save-disk.07b13fc2.svg"/></button>
+        <button id="polarBuilderExport" title="Export Polar" class="icon-button"><img src="/player/assets/share.83ba1025.svg"/></button>
       </div>
     </div>
   
@@ -317,13 +314,13 @@
       <div id="pb-polar-plot">
       </div>
       <div class="polar-overlay-builder">
-        <button id="polarBuilderOverlay" title="Overlay Another Polar" class="icon-button"><img src="/assets/overlay.3d5824d3.svg"/></button>
-        <button id="polarBuilderDotsToggle" title="Show Dots" class="icon-button"><img src="/assets/scatter.4e672096.svg"/></button>
-        <button id="halfPolarToggle" title="Half Polar" class="icon-button"><img src="/assets/halfpolar.277a5ae0.svg"/></button>
+        <button id="polarBuilderOverlay" title="Overlay Another Polar" class="icon-button"><img src="/player/assets/overlay.3d5824d3.svg"/></button>
+        <button id="polarBuilderDotsToggle" title="Show Dots" class="icon-button"><img src="/player/assets/scatter.4e672096.svg"/></button>
+        <button id="halfPolarToggle" title="Half Polar" class="icon-button"><img src="/player/assets/halfpolar.277a5ae0.svg"/></button>
       </div>
       <div class="polar-overlay-data-select">
-        <button id="polarDataLeft" title="Race Data" class="icon-button"><img src="/assets/arrow_left.8f2aa86c.svg"/></button>
-        <button id="polarDataRight" title="Polar File" class="icon-button"><img src="/assets/arrow_right.e334f8cd.svg"/></button>
+        <button id="polarDataLeft" title="Race Data" class="icon-button"><img src="/player/assets/arrow_left.8f2aa86c.svg"/></button>
+        <button id="polarDataRight" title="Polar File" class="icon-button"><img src="/player/assets/arrow_right.e334f8cd.svg"/></button>
       </div>
     </div>
     <div id="pb-polar-list" class="pb-polar-list">
