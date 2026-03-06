@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TWA Dial Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: sans-serif; text-align: center; margin: 0; padding: 0; background: #f0f4fa; }
+    #container { margin: 10px auto 10px auto; width: 320px; }
+    #dialCanvas { background: #fff; border-radius: 50%; box-shadow: 0 2px 8px #0002; }
+    #thisLegBox {
+      border: 2px solid #08af48;
+      border-radius: 12px;
+      margin: 32px auto 0 auto;
+      padding: 16px 12px 12px 12px;
+      width: 270px;
+      background: #f8fff8;
+      box-shadow: 0 2px 8px #0001;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #thisLegTitle {
+      color: #08af48;
+      font-weight: bold;
+      font-size: 1.1em;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    #twsSliderContainer {
+      position: relative; /* Needed for absolute positioning of label */
+      width: 98%;
+      margin: auto auto 0 auto;
+      display: flex;
+      align-items: center;
+      height: 48px;
+      border-radius: 14px;
+      justify-content: center;
+    }
+/*
+#twsSliderContainer::before {
+  content: "TWS";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #ffffff79;
+  font-weight: bold;
+  font-size: 1.1em;
+  pointer-events: none;
+  letter-spacing: 2px;
+  text-shadow: 0 1px 4px #08af48cc, 0 0 2px #08af48cc;
+  z-index: -1;
+}*/
+
+    #twsSlider {
+      width: 100%;
+      height: 28px;
+      background: transparent;
+      appearance: none;
+      -webkit-appearance: none;
+      margin: 0 8px;
+      cursor: pointer;
+    }
+
+    #twsSlider::-webkit-slider-runnable-track {
+      height: 28px;
+      background: #08af48ff;
+      border-radius: 14px;
+    }
+
+    #twsSlider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #fff;
+      border: 4px solid #08af48ff;
+      box-shadow: 0 2px 8px #08af4888;
+      margin-top: -4px;
+      transition: border 0.2s;
+    }
+
+    #twsSlider:focus::-webkit-slider-thumb {
+      border: 4px solid #1E90FF;
+    }
+
+    #twsSlider::-moz-range-thumb {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #fff;
+      border: 4px solid #08af48ff;
+      box-shadow: 0 2px 8px #08af4888;
+      transition: border 0.2s;
+    }
+
+    #twsSlider::-ms-thumb {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #fff;
+      border: 4px solid #08af48ff;
+      box-shadow: 0 2px 8px #08af4888;
+      transition: border 0.2s;
+    }
+
+    #twsSlider:focus::-ms-thumb {
+      border: 4px solid #1E90FF;
+    }
+
+    #twsSlider::-ms-fill-lower {
+      background: #08af48ff;
+      border-radius: 14px;
+    }
+    #twsSlider::-ms-fill-upper {
+      background: #cce6cc;
+      border-radius: 14px;
+    }
+
+    #twsSlider::-moz-range-track {
+      height: 28px;
+      background: #08af48ff;
+      border-radius: 14px;
+    }
+
+    #twsSlider::-ms-tooltip {
+      display: none;
+    }
+
+    #twsSlider:focus {
+      outline: none;
+    }
+
+    #twsSliderMin, #twsSliderMax {
+      font-size: 0.95em;
+      color: #08af48;
+      width: 28px;
+      text-align: center;
+      user-select: none;
+    }
+
+
+
+    /********************************* NEXT LEG ***************************************/
+    /* Add to your <style> section */
+#nextLegBox {
+  border: 2px solid #1E90FF;
+  border-radius: 12px;
+  margin: 10px auto 0 auto;
+  padding: 16px 12px 12px 12px;
+  width: 270px;
+  background: #f8faff;
+  box-shadow: 0 2px 8px #0001;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#nextLegTitle {
+  color: #1E90FF;
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+#bspSliderContainer {
+  position: relative;
+  width: 98%;
+  margin: auto auto 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+  border-radius: 14px;
+  justify-content: center;
+}
+/*
+#bspSliderContainer::before {
+  content: "BSP";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #ffffffb0;
+  font-weight: bold;
+  font-size: 1.1em;
+  pointer-events: none;
+  letter-spacing: 2px;
+  text-shadow: 0 1px 4px #1e90ffcc, 0 0 2px #1e90ffcc;
+  z-index: 2;
+}*/
+#bspSlider {
+  width: 100%;
+  height: 28px;
+  background: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+#bspSlider::-webkit-slider-runnable-track {
+  height: 28px;
+  background: #1E90FF;
+  border-radius: 14px;
+}
+#bspSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  border: 4px solid #1E90FF;
+  box-shadow: 0 2px 8px #1e90ff88;
+  margin-top: -4px;
+  transition: border 0.2s;
+}
+#bspSlider:focus::-webkit-slider-thumb {
+  border: 4px solid #08af48;
+}
+#bspSlider::-moz-range-thumb {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  border: 4px solid #1E90FF;
+  box-shadow: 0 2px 8px #1e90ff88;
+  transition: border 0.2s;
+}
+#bspSlider:focus::-moz-range-thumb {
+  border: 4px solid #08af48;
+}
+#bspSlider::-ms-thumb {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  border: 4px solid #1E90FF;
+  box-shadow: 0 2px 8px #1e90ff88;
+  transition: border 0.2s;
+}
+#bspSlider:focus::-ms-thumb {
+  border: 4px solid #08af48;
+}
+#bspSlider::-ms-fill-lower {
+  background: #1E90FF;
+  border-radius: 14px;
+}
+#bspSlider::-ms-fill-upper {
+  background: #cce6ff;
+  border-radius: 14px;
+}
+#bspSlider::-moz-range-track {
+  height: 28px;
+  background: #1E90FF;
+  border-radius: 14px;
+}
+#bspSlider::-ms-tooltip {
+  display: none;
+}
+#bspSlider:focus {
+  outline: none;
+}
+#bspMin, #bspMax {
+  font-size: 0.95em;
+  color: #1E90FF;
+  width: 28px;
+  text-align: center;
+  user-select: none;
+}
+.legValues {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-bottom: 0px;
+}
+.nextLegRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2px;
+}
+
+.label {
+  font-size: 1.1em;
+  color: #333;
+  margin-left: 0px;
+}
+.valueThisLeg {
+  font-size: 1.5em;
+  color: #08af48ff;
+  margin: 0 0px;
+  width: 2em;
+}
+.valueNextLeg {
+  font-size: 1.5em;
+  color: #1E90FF;
+  margin: 0 0px;
+  width: 2em;
+}
+  </style>
+  <script type="module" crossorigin src="/player-maplibre/assets/about.5dc5a9b9.js"></script>
+  <link rel="modulepreload" crossorigin href="/player-maplibre/assets/modulepreload-polyfill.c7c6310f.js">
+</head>
+<body>
+<div id="nextLegBox">
+  <!--<div id="nextLegTitle">NEXT LEG</div>-->
+  <div class="legValues">
+    <div class="nextLegRow">
+      <span id="newHdgLabel" class="label">NEW HDG</span>
+      <span id="newHdgValue" class="valueNextLeg"></span>
+      
+    </div>
+    <div class="nextLegRow">
+      <span id="newtwaLabel" class="label">TWA</span>
+      <span id="newtwaValue" class="valueNextLeg"></span>
+      <span id="newawaLabel" class="label">AWA</span>
+      <span id="newawaValue" class="valueNextLeg"></span>
+    </div>
+  </div>
+  <div id="bspSliderContainer">
+    <span id="bspLabel" class="label">BSP</span>
+    <input type="range" min="0" max="20" value="5" id="bspSlider" step="0.1">
+    <span id="bspValue" class="valueNextLeg"></span>
+  </div>
+</div>
+  <div id="container">
+    <canvas id="dialCanvas" width="300" height="300"></canvas>
+    <!--
+    <span id="label">TWA</span>
+    <span id="twaValue">0</span>
+    <span id="hdgLabel" style="font-size:1.2em;color:#333;">HDG</span>
+    <span id="hdgValue" style="font-size:2em;margin:8px 0 0 0;color:#1E90FF;">0</span>-->
+
+    <div id="thisLegBox">
+      <!--<div id="thisLegTitle">THIS LEG</div>-->
+      <div class="legValues">
+        <div class="nextLegRow">
+          <span id="hdgLabel" class="label">HDG</span>
+          <input id="hdgValue" type="text" class="valueThisLeg">0</input>
+          <span id="twaLabel" class="label">TWA</span>
+          <span id="twaValue" class="valueThisLeg"></span>
+          
+          
+        </div>
+      </div>
+      <div id="twsSliderContainer">
+        <span id="twsLabel" class="label">TWS</span>
+        <input type="range" min="0" max="40" value="10" id="twsSlider" step="1">
+        <span id="twsValue" class="valueThisLeg"></span>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Register service worker for offline support
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('calc-js/service-worker.js');
+      });
+    }
+
+  </script>
+</body>
+</html>
