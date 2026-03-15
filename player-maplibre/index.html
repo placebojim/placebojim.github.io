@@ -16,9 +16,9 @@
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.0.0/dist/maplibre-gl.css" />
   
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script type="module" crossorigin src="/player-maplibre/assets/index.864a77d8.js"></script>
+  <script type="module" crossorigin src="/player-maplibre/assets/index.c04ff0a9.js"></script>
   <link rel="modulepreload" crossorigin href="/player-maplibre/assets/modulepreload-polyfill.c7c6310f.js">
-  <link rel="stylesheet" href="/player-maplibre/assets/index.705c283d.css">
+  <link rel="stylesheet" href="/player-maplibre/assets/index.b1984107.css">
 </head>
 <body>
 <div id="playerMode" class="player-mode-control desktop-only">
@@ -55,7 +55,6 @@
             <button id="annotateButton" class="icon-button desktop-only"  title="Edit Labels, Notes"><img src="/player-maplibre/assets/label.564e9316.svg"/></button>
             <!--button id="importDriveButton" class="icon-button desktop-only" title="Import raw data from Google Drive"><img src="icons/import-drive.svg"/></button-->
             <button id="importFileButton" class="icon-button" title="Import raw data from File"><img src="/player-maplibre/assets/import-file.0236bd90.svg"/></button>
-            <button id="shareButton" class="icon-button desktop-only" title="Share Race" style="display: none;"><img src="/player-maplibre/assets/share.83ba1025.svg"/></button>
           </div>
           <button id="g_id_signin">Drive Login</button>
         </div>
@@ -122,23 +121,6 @@
 
     <div id="vessel-info-wrapper" style="display:none" class="vessel-info-wrapper">
       <button id="vessel-info-close" title="Save" class="icon-button"><img src="/player-maplibre/assets/close.0c29d81d.svg"/></button>
-    </div>
-  </div>
-
-  <!-- Share Dialog Modal -->
-  <div id="shareDialog" class="modal-dialog" style="display:none">
-    <div class="modal-backdrop"></div>
-    <div class="modal-content">
-      <h3>Share Race</h3>
-      <p>Anyone with this link can view the race:</p>
-      <div class="share-link-container">
-        <button id="copyLinkButton" class="icon-button" title="Copy to Clipboard"><img src="/player-maplibre/assets/content_copy.8f8f8756.svg"/></button>
-        <input type="text" id="shareLinkInput" readonly />
-      </div>
-      <div class="modal-buttons">
-        <button id="closeShareDialogButton" class="secondary-button">Close</button>
-      </div>
-      <div id="shareFeedback" class="feedback-message"></div>
     </div>
   </div>
 
