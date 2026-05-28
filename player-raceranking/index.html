@@ -16,9 +16,9 @@
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.0.0/dist/maplibre-gl.css" />
   
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script type="module" crossorigin src="/player-raceranking/assets/index.ba4be570.js"></script>
+  <script type="module" crossorigin src="/player-raceranking/assets/index.cfbe9b0d.js"></script>
   <link rel="modulepreload" crossorigin href="/player-raceranking/assets/modulepreload-polyfill.c7c6310f.js">
-  <link rel="stylesheet" href="/player-raceranking/assets/index.e05d3833.css">
+  <link rel="stylesheet" href="/player-raceranking/assets/index.6f9efc80.css">
 </head>
 <body>
 <div id="playerMode" class="player-mode-control desktop-only">
@@ -52,21 +52,21 @@
       <span id="controls-visible" >
         <div class="general-file-controls">
           <div class="action-buttons">
-            <button id="annotateButton" class="icon-button desktop-only"  title="Edit Labels, Notes"><img src="/player-raceranking/assets/label.564e9316.svg"/></button>
             <!--button id="importDriveButton" class="icon-button desktop-only" title="Import raw data from Google Drive"><img src="icons/import-drive.svg"/></button-->
             <button id="importFileButton" class="icon-button" title="Import raw data from File"><img src="/player-raceranking/assets/import-file.0236bd90.svg"/></button>
+            <input type="file" id="fileInputNMEA" accept=".gpx, .json, .txt" style="display: none;"/>
+            <button id="loadJsonFileButton" class="icon-button" title="Load from Google Drive"><img src="/player-raceranking/assets/file-open.37081efa.svg"/></button>
+            <button id="saveButton" title="Save" class="icon-button desktop-only"><img src="/player-raceranking/assets/save-disk.07b13fc2.svg"/></button>
+            <button id="saveAsButton" title="Save As" class="icon-button"><img src="/player-raceranking/assets/save-as-disk.ac8d4cef.svg"/></button>
+            <button id="annotateButton" class="icon-button desktop-only"  title="Edit Labels, Notes"><img src="/player-raceranking/assets/label.564e9316.svg"/></button>
             <button id="shareButton" class="icon-button desktop-only" title="Share Race" style="display: none;"><img src="/player-raceranking/assets/share.83ba1025.svg"/></button>
           </div>
           <button id="g_id_signin">Drive Login</button>
         </div>
         
         <div class="file-controls">
-          <input type="file" id="fileInputNMEA" accept=".gpx, .json, .txt" style="display: none;"/>
-          <button id="loadJsonFileButton" class="icon-button" title="Load from Google Drive"><img src="/player-raceranking/assets/file-open.37081efa.svg"/></button>
-          <div id="fileNameSelected" class="desktop-only"></div>
+          <div id="fileNameSelected" class="desktop-only">&nbsp;</div>
           
-          <button id="saveButton" title="Save" class="icon-button desktop-only"><img src="/player-raceranking/assets/save-disk.07b13fc2.svg"/></button>
-          <button id="saveAsButton" title="Save As" class="icon-button"><img src="/player-raceranking/assets/save-as-disk.ac8d4cef.svg"/></button>
         </div>
       </span>  
       <div id="legend" class="vessel-list">
