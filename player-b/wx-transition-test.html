@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>deck.gl transition flicker test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: sans-serif; }
+    #deck-container { position: absolute; inset: 0; background: #dce8f0; }
+    #panel {
+      position: absolute; top: 8px; left: 8px; z-index: 10;
+      background: rgba(255,255,255,0.9); border-radius: 8px; padding: 8px 10px;
+      box-shadow: 0 2px 8px #0003; font-size: 14px; max-width: 260px;
+    }
+    #panel label { display: block; margin: 4px 0; }
+    #panel .hint { color: #666; font-size: 11px; margin-top: 6px; }
+    #gl-info { color: #333; font-size: 10px; margin-top: 6px; word-break: break-all; }
+  </style>
+  <script type="module" crossorigin src="/player-b/assets/wxTransitionTest.63ac1360.js"></script>
+  <link rel="modulepreload" crossorigin href="/player-b/assets/modulepreload-polyfill.c7c6310f.js">
+  <link rel="modulepreload" crossorigin href="/player-b/assets/icon-layer.5d3fb3e2.js">
+</head>
+<body>
+  <div id="deck-container"></div>
+  <div id="panel">
+    <label><input type="checkbox" id="chk-transitions" checked> transitions (300ms)</label>
+    <label><input type="checkbox" id="chk-updates"> data updates (1s)</label>
+    <div class="hint">Pan/zoom with touch. Static data + transitions on is the key case: flicker here = driver bug, no MapLibre involved.</div>
+    <div id="gl-info"></div>
+  </div>
+  
+</body>
+</html>
