@@ -18,10 +18,10 @@
   
   
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script type="module" crossorigin src="/player-b/assets/index.19db5b49.js"></script>
+  <script type="module" crossorigin src="/player-b/assets/index.ce1e04ca.js"></script>
   <link rel="modulepreload" crossorigin href="/player-b/assets/modulepreload-polyfill.c7c6310f.js">
   <link rel="modulepreload" crossorigin href="/player-b/assets/scatterplot-layer.2ffc7318.js">
-  <link rel="stylesheet" href="/player-b/assets/index.8b294a9d.css">
+  <link rel="stylesheet" href="/player-b/assets/index.77f01f99.css">
 </head>
 
 <body>
@@ -87,7 +87,7 @@
                 <span class="fc-label">Share Race</span>
               </div>
               <div class="fc-item fc-expand-only">
-                <button id="ctrlToggleWeather" class="icon-button" title="Refresh weather data">WX</button>
+                <button id="weatherDataRefreshButton" class="icon-button" title="Refresh weather data">WX</button>
                 <span class="fc-label">Reload weather data</span>
               </div>
               <button id="fileControlsExpand" class="icon-button" title="More"><img src="/player-b/assets/more-horiz.7ab167c3.svg" /></button>
@@ -228,11 +228,12 @@
       </div>
       <button id="ctrlToggleManeuvers" title="Show maneuver graphics" class="icon-button"><img
           src="/player-b/assets/course-segments.b06ae15f.svg" /></button>
+      <button id="ctrlToggleWeather" class="icon-button selected" title="Weather layer">WX</button>
       <button id="ctrlTogglePolar" title="Show dynamic polar diagram" class="icon-button desktop-only"><img
           src="/player-b/assets/polar.81d18a92.svg" /></button>
       <button id="ctrlMeasure" title="Distance measure tool - click two points" class="icon-button desktop-only"><img
           src="/player-b/assets/measure.16018994.svg" /></button>
-      <button id="ctrlRecords" title="Show max" class="icon-button selected desktop-only"><img
+      <button id="ctrlRecords" style="display:none" title="Show max" class="icon-button selected desktop-only"><img
           src="/player-b/assets/records.6b674cee.svg" /></button>
       <button id="ctrlViewMode" title="Map view mode" class="icon-button"><img src="/player-b/assets/nav_north.17fb48d2.svg"/></button>
       <div id="terrainWrapper" class="ctrlDrawerWrapper">
