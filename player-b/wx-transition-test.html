@@ -16,16 +16,16 @@
     #panel .hint { color: #666; font-size: 11px; margin-top: 6px; }
     #gl-info { color: #333; font-size: 10px; margin-top: 6px; word-break: break-all; }
   </style>
-  <script type="module" crossorigin src="/player-b/assets/wxTransitionTest.63ac1360.js"></script>
+  <script type="module" crossorigin src="/player-b/assets/wxTransitionTest.66fc66b3.js"></script>
   <link rel="modulepreload" crossorigin href="/player-b/assets/modulepreload-polyfill.c7c6310f.js">
-  <link rel="modulepreload" crossorigin href="/player-b/assets/icon-layer.5d3fb3e2.js">
+  <link rel="modulepreload" crossorigin href="/player-b/assets/scatterplot-layer.dd43fccf.js">
 </head>
 <body>
   <div id="deck-container"></div>
   <div id="panel">
-    <label><input type="checkbox" id="chk-transitions" checked> transitions (300ms)</label>
-    <label><input type="checkbox" id="chk-updates"> data updates (1s)</label>
-    <div class="hint">Pan/zoom with touch. Static data + transitions on is the key case: flicker here = driver bug, no MapLibre involved.</div>
+    <label><input type="checkbox" id="chk-transitions" checked> transitions (color, 300ms)</label>
+    <label><input type="checkbox" id="chk-icon"> IconLayer (off = ScatterplotLayer)</label>
+    <div class="hint">Bare-bones case: ScatterplotLayer + color transition + static data. Pan/zoom with touch. Toggle IconLayer to compare.</div>
     <div id="gl-info"></div>
   </div>
   
