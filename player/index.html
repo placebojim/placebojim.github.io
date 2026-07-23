@@ -18,9 +18,10 @@
   
   
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script type="module" crossorigin src="/player/assets/index.2ccee8e9.js"></script>
+  <script type="module" crossorigin src="/player/assets/index.2ded63bf.js"></script>
   <link rel="modulepreload" crossorigin href="/player/assets/modulepreload-polyfill.c7c6310f.js">
-  <link rel="stylesheet" href="/player/assets/index.7d255c83.css">
+  <link rel="modulepreload" crossorigin href="/player/assets/scatterplot-layer.3b5ec5b3.js">
+  <link rel="stylesheet" href="/player/assets/index.77f01f99.css">
 </head>
 
 <body>
@@ -60,19 +61,36 @@
           <div class="general-file-controls">
             <div class="action-buttons">
               <!--button id="importDriveButton" class="icon-button desktop-only" title="Import raw data from Google Drive"><img src="icons/import-drive.svg"/></button-->
-              <button id="importFileButton" class="icon-button" title="Import raw data from File"><img
-                  src="/player/assets/import-file.0236bd90.svg" /></button>
-              <input type="file" id="fileInputNMEA" accept=".gpx, .json, .txt" style="display: none;" />
-              <button id="loadJsonFileButton" class="icon-button" title="Load from Google Drive"><img
-                  src="/player/assets/file-open.37081efa.svg" /></button>
-              <button id="saveButton" title="Save" class="icon-button desktop-only"><img
-                  src="/player/assets/save-disk.07b13fc2.svg" /></button>
-              <button id="saveAsButton" title="Save As" class="icon-button"><img
-                  src="/player/assets/save-as-disk.ac8d4cef.svg" /></button>
-              <button id="annotateButton" class="icon-button desktop-only" title="Edit Labels, Notes"><img
-                  src="/player/assets/label.564e9316.svg" /></button>
-              <button id="shareButton" class="icon-button desktop-only" title="Share Race" style="display: none;"><img
-                  src="/player/assets/share.83ba1025.svg" /></button>
+              <div class="fc-item">
+                <button id="importFileButton" class="icon-button btn-available" title="Import raw data from File"><img src="/player/assets/import-file.0236bd90.svg" /></button>
+                <input type="file" id="fileInputNMEA" accept=".gpx, .json, .txt" style="display: none;" />
+                <span class="fc-label">Import from Device</span>
+              </div>
+              <div class="fc-item">
+                <button id="loadJsonFileButton" class="icon-button btn-available" title="Load from Google Drive"><img src="/player/assets/file-open.37081efa.svg" /></button>
+                <span class="fc-label">Open file GDrive</span>
+              </div>
+              <div class="fc-item desktop-only">
+                <button id="saveButton" title="Save" class="icon-button"><img src="/player/assets/save-disk.07b13fc2.svg" /></button>
+                <span class="fc-label">Save</span>
+              </div>
+              <div class="fc-item fc-expand-only">
+                <button id="saveAsButton" title="Save As" class="icon-button"><img src="/player/assets/save-as-disk.ac8d4cef.svg" /></button>
+                <span class="fc-label">Save As</span>
+              </div>
+              <div class="fc-item desktop-only">
+                <button id="annotateButton" class="icon-button" title="Edit Labels, Notes"><img src="/player/assets/label.564e9316.svg" /></button>
+                <span class="fc-label">Annotate the track</span>
+              </div>
+              <div class="fc-item">
+                <button id="shareButton" class="icon-button" title="Share Race"><img src="/player/assets/share.83ba1025.svg" /></button>
+                <span class="fc-label">Share Race</span>
+              </div>
+              <div class="fc-item fc-expand-only">
+                <button id="weatherDataRefreshButton" class="icon-button" title="Refresh weather data">WX</button>
+                <span class="fc-label">Reload weather data</span>
+              </div>
+              <button id="fileControlsExpand" class="icon-button" title="More"><img src="/player/assets/more-horiz.7ab167c3.svg" /></button>
             </div>
             <button title="Login to google drive" id="g_id_signin">Drive Login</button>
           </div>
@@ -210,11 +228,12 @@
       </div>
       <button id="ctrlToggleManeuvers" title="Show maneuver graphics" class="icon-button"><img
           src="/player/assets/course-segments.b06ae15f.svg" /></button>
+      <button id="ctrlToggleWeather" class="icon-button selected" title="Weather layer">WX</button>
       <button id="ctrlTogglePolar" title="Show dynamic polar diagram" class="icon-button desktop-only"><img
           src="/player/assets/polar.81d18a92.svg" /></button>
       <button id="ctrlMeasure" title="Distance measure tool - click two points" class="icon-button desktop-only"><img
           src="/player/assets/measure.16018994.svg" /></button>
-      <button id="ctrlRecords" title="Show max" class="icon-button selected desktop-only"><img
+      <button id="ctrlRecords" style="display:none" title="Show max" class="icon-button selected desktop-only"><img
           src="/player/assets/records.6b674cee.svg" /></button>
       <button id="ctrlViewMode" title="Map view mode" class="icon-button"><img src="/player/assets/nav_north.17fb48d2.svg"/></button>
       <div id="terrainWrapper" class="ctrlDrawerWrapper">
